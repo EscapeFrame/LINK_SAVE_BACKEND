@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: LINK_SAVE
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/{DB_NAME}
+    username: {DB_USERNAME}
+    password: {DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # 개발 환경에서는 update / 운영은 validate 또는 none 추천
+    show-sql: true        # SQL 로그 출력
+    properties:
+      hibernate:
+        format_sql: true  # SQL 예쁘게 출력
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8081
