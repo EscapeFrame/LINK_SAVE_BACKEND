@@ -1,0 +1,13 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: linksave-db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: linksave1234
+      POSTGRES_PASSWORD: linksave52025
+      POSTGRES_DB: LINK_SAVE
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
