@@ -1,6 +1,6 @@
 package clue.link_save.domain.link.application;
 
-import clue.link_save.domain.link.domain.Authorization;
+import clue.link_save.domain.link.domain.AuthorizationType;
 import clue.link_save.domain.link.domain.Link;
 import clue.link_save.domain.link.domain.SubjectType;
 import clue.link_save.domain.link.persistence.LinkRepository;
@@ -20,14 +20,16 @@ public class LinkService {
   private final LinkRepository linkRepository;
 
   public Link findByIdOrElseThrow(Long id) {
-    return linkRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당 링크를 찾을수 없습니다."));
+    return linkRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 링크입니다."));
   }
 
-  public Page<Link> findAll(char grade, char clas, Authorization authorization, SubjectType subjectType, int size, int offset) {
+  public Page<Link> findAll(char grade, char clas, AuthorizationType authorizationType, SubjectType subjectType, int size, int offset) {
     Pageable pageable = PageRequest.of(offset, size);
-    return linkRepository.findByGradeAndClasAndAuthorization(grade, clas, authorization, pageable);
+    return linkRepository.findByGradeAndClasAndAuthorizationType(grade, clas, authorizationType, pageable);
   }
 
+  @Transactional
   public Link createLink(Link link){
     return linkRepository.save(link);
   }
@@ -41,7 +43,7 @@ public class LinkService {
   @Transactional
   public Link updateLink(Long linkId, LinkRequest linkRequest) {
     Link link = findByIdOrElseThrow(linkId);
-    link.update(linkRequest.getTitle(),linkRequest.getLink(),linkRequest.getDescription(),linkRequest.getAuthorization(), linkRequest.getSubjectType());
+    link.update(linkRequest.getTitle(),linkRequest.getLink(),linkRequest.getDescription(),linkRequest.getAuthorizationType(), linkRequest.getSubjectType());
     return link;
   }
 }

@@ -1,7 +1,7 @@
 package clue.link_save.domain.link.presentation;
 
 import clue.link_save.domain.link.application.LinkService;
-import clue.link_save.domain.link.domain.Authorization;
+import clue.link_save.domain.link.domain.AuthorizationType;
 import clue.link_save.domain.link.domain.Link;
 import clue.link_save.domain.link.domain.SubjectType;
 import clue.link_save.domain.link.presentation.dto.request.LinkRequest;
@@ -23,7 +23,7 @@ public class LinkController {
   public ResponseEntity<List<LinkResponse>> getAll(
           @RequestParam char grade,
           @RequestParam char clas,
-          @RequestParam Authorization authorization,
+          @RequestParam AuthorizationType authorization,
           @RequestParam()SubjectType subjectType,
           @RequestParam(defaultValue = "40") int size,
           @RequestParam(defaultValue = "0") int offset
@@ -49,7 +49,7 @@ public class LinkController {
             linkRequest.getTitle(),
             linkRequest.getDescription(),
             linkRequest.getLink(),
-            linkRequest.getAuthorization(),
+            linkRequest.getAuthorizationType(),
             linkRequest.getSubjectType()
     );
     linkService.createLink(link);

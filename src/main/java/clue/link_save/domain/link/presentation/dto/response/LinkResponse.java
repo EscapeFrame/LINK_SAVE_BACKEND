@@ -1,6 +1,6 @@
 package clue.link_save.domain.link.presentation.dto.response;
 
-import clue.link_save.domain.link.domain.Authorization;
+import clue.link_save.domain.link.domain.AuthorizationType;
 import clue.link_save.domain.link.domain.Link;
 import clue.link_save.domain.link.domain.SubjectType;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ public class LinkResponse {
   private String title;
   private String description;
   private String link;
-  private Authorization authorization;
+  private AuthorizationType authorizationType;
   private SubjectType subjectType;
 
   public static LinkResponse from(Link link){
@@ -26,7 +26,7 @@ public class LinkResponse {
     response.title = link.getTitle();
     response.description = link.getDescription();
     response.link = link.getLink();
-    response.authorization = link.getAuthorization();
+    response.authorizationType = link.getAuthorizationType();
     response.subjectType = link.getSubjectType();
     return response;
   }

@@ -1,6 +1,6 @@
 package clue.link_save.domain.link.presentation.dto.request;
 
-import clue.link_save.domain.link.domain.Authorization;
+import clue.link_save.domain.link.domain.AuthorizationType;
 import clue.link_save.domain.link.domain.SubjectType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +15,6 @@ public class LinkRequest {
   private String title;
   private String description;
   private String link;
-  private Authorization authorization;
+  private AuthorizationType authorizationType;
   private SubjectType subjectType;
 }
