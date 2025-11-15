@@ -24,7 +24,7 @@ public class LinkController {
           @RequestParam char grade,
           @RequestParam char clas,
           @RequestParam AuthorizationType authorization,
-          @RequestParam()SubjectType subjectType,
+          @RequestParam SubjectType subjectType,
           @RequestParam(defaultValue = "40") int size,
           @RequestParam(defaultValue = "0") int offset
   ){
