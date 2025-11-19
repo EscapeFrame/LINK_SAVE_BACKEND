@@ -4,9 +4,9 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/LINK_SAVE
-    username: linksave1234
-    password: linksave52025
+    url: jdbc:postgresql://localhost:5432/cluedb
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
 
   jpa:
     hibernate:

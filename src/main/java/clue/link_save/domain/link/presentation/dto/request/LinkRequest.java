@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LinkRequest {
-  private char grade;
-  private char clas;
+  private int grade;
+  private int clas;
   private String title;
   private String description;
   private String link;

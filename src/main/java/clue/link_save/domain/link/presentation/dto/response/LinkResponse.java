@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LinkResponse {
-  private char grade;
-  private char clas;
+  private int grade;
+  private int clas;
   private String title;
   private String description;
   private String link;
