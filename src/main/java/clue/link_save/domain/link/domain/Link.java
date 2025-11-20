@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Entity
 @Table(name = "link")
@@ -20,8 +21,11 @@ public class Link {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private char grade; // 학년
-  private char clas;  // 반
+  @Column(nullable = false)
+  private UUID userId; // 링크 작성자 ID
+
+  private int grade; // 학년
+  private int clas;  // 반
 
   private String title;       // 제목
   private String description; // 설명
@@ -36,8 +40,9 @@ public class Link {
   @Enumerated(EnumType.STRING)
   private SubjectType subjectType; // 과목 종류
 
-  public static Link create(char grade, char clas, String title, String description, String link, AuthorizationType authorization, SubjectType subjectType) {
+  public static Link create(UUID userId, int grade, int clas, String title, String description, String link, AuthorizationType authorization, SubjectType subjectType) {
     Link newLink = new Link();
+    newLink.userId = userId;
     newLink.grade = grade;
     newLink.clas = clas;
     newLink.title = title;
@@ -54,5 +59,9 @@ public class Link {
     this.link = link;
     this.authorizationType = authorization;
     this.subjectType = subjectType;
+  }
+
+  public boolean isOwner(UUID userId) {
+    return this.userId.equals(userId);
   }
 }
