@@ -4,7 +4,7 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/cluedb
+    url: jdbc:postgresql://localhost:5432/clue
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
 
