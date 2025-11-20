@@ -1,49 +1,58 @@
 package clue.link_save.domain.link.presentation;
 
 import clue.link_save.domain.link.application.LinkService;
-import clue.link_save.domain.link.domain.AuthorizationType;
 import clue.link_save.domain.link.domain.Link;
 import clue.link_save.domain.link.domain.SubjectType;
 import clue.link_save.domain.link.presentation.dto.request.LinkRequest;
 import clue.link_save.domain.link.presentation.dto.response.LinkResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class LinkController {
   private final LinkService linkService;
 
-  @GetMapping("/linksave") // 링크 전체 조회
+  @GetMapping("/linksave")
   public ResponseEntity<List<LinkResponse>> getAll(
-          @RequestParam char grade,
-          @RequestParam char clas,
-          @RequestParam AuthorizationType authorization,
-          @RequestParam()SubjectType subjectType,
+          @RequestParam UUID userId,
+          @RequestParam int grade,
+          @RequestParam int clas,
+          @RequestParam(required = false) SubjectType subjectType,
           @RequestParam(defaultValue = "40") int size,
           @RequestParam(defaultValue = "0") int offset
   ){
-    Page<Link> links = linkService.findAll(grade, clas, authorization, subjectType, size, offset);
+    Page<Link> links = linkService.findAllAccessibleLinks(userId, grade, clas, subjectType, size, offset);
     List<LinkResponse> linkResponses = links.stream()
             .map(link -> LinkResponse.from(link))
             .toList();
     return ResponseEntity.ok(linkResponses);
   }
 
-  @GetMapping("/linksave/{link_id}") // 링크 단일 조회
-  public ResponseEntity<LinkResponse> getAllLink(@PathVariable Long link_id){
-    Link link = linkService.findByIdOrElseThrow(link_id);
+  @GetMapping("/linksave/{link_id}")
+  public ResponseEntity<LinkResponse> getAllLink(
+          @RequestParam UUID userId,
+          @RequestParam int grade,
+          @RequestParam int clas,
+          @PathVariable Long link_id
+  ){
+    Link link = linkService.findByIdWithAccessControl(userId, grade, clas, link_id);
     return ResponseEntity.ok(LinkResponse.from(link));
   }
 
   @PostMapping("/linksave") // 링크 저장
-  public ResponseEntity<LinkResponse> getLink(@RequestBody LinkRequest linkRequest){
+  public ResponseEntity<LinkResponse> getLink(
+          @RequestParam UUID userId,
+          @RequestBody LinkRequest linkRequest
+  ){
     Link link = Link.create(
+            userId,
             linkRequest.getGrade(),
             linkRequest.getClas(),
             linkRequest.getTitle(),
@@ -56,15 +65,22 @@ public class LinkController {
     return ResponseEntity.ok(LinkResponse.from(link));
   }
 
-  @DeleteMapping("/linksave/{link_id}") // 링크 삭제
-  public ResponseEntity<?> deleteLink(@PathVariable Long link_id){
-    linkService.deleteLink(link_id);
-    return ResponseEntity.ok(true);
+  @DeleteMapping("/linksave/{link_id}")
+  public ResponseEntity<?> deleteLink(
+          @RequestParam UUID userId,
+          @PathVariable Long link_id
+  ){
+    linkService.deleteLink(userId, link_id);
+    return ResponseEntity.status(HttpStatus.OK).build();
   }
 
-  @PatchMapping("/linksave/{link_id}") // 링크 수정
-  public ResponseEntity<LinkResponse> updateLink(@PathVariable Long link_id, @RequestBody LinkRequest linkRequest){
-    Link link = linkService.updateLink(link_id,linkRequest);
+  @PatchMapping("/linksave/{link_id}")
+  public ResponseEntity<LinkResponse> updateLink(
+          @RequestParam UUID userId,
+          @PathVariable Long link_id,
+          @RequestBody LinkRequest linkRequest
+  ){
+    Link link = linkService.updateLink(userId, link_id, linkRequest);
     return ResponseEntity.ok(LinkResponse.from(link));
   }
 }

@@ -36,8 +36,19 @@ out/
 ### VS Code ###
 .vscode/
 
+### GRADLE ###
+.gradle/**
+
 ### ENV ###
 .env
 
+<<<<<<< HEAD
 ### POSTGRESQL ###
 postgres-data
+=======
+### POSTGRES ###
+postgres-data
+
+### CLAUDE CODE ###
+CLAUDE.md
+>>>>>>> 5cfb1ab9174903421578549b2e4cbf9b0c3ffefd
