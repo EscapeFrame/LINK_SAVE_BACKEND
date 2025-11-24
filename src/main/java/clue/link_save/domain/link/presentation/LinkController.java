@@ -1,6 +1,7 @@
 package clue.link_save.domain.link.presentation;
 
 import clue.link_save.domain.link.application.LinkService;
+import clue.link_save.domain.link.domain.AuthorizationType;
 import clue.link_save.domain.link.domain.Link;
 import clue.link_save.domain.link.domain.SubjectType;
 import clue.link_save.domain.link.presentation.dto.request.LinkRequest;
@@ -25,10 +26,11 @@ public class LinkController {
           @RequestParam int grade,
           @RequestParam int clas,
           @RequestParam(required = false) SubjectType subjectType,
+          @RequestParam(required = false)AuthorizationType authorizationType,
           @RequestParam(defaultValue = "40") int size,
           @RequestParam(defaultValue = "0") int offset
   ){
-    Page<Link> links = linkService.findAllAccessibleLinks(userId, grade, clas, subjectType, size, offset);
+    Page<Link> links = linkService.findAllAccessibleLinks(userId, grade, clas, subjectType, authorizationType, size, offset);
     List<LinkResponse> linkResponses = links.stream()
             .map(link -> LinkResponse.from(link))
             .toList();

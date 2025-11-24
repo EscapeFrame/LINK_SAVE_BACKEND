@@ -19,6 +19,7 @@ public interface LinkRepository extends JpaRepository<Link, Long> {
           "((l.authorizationType = 'PUBLIC') OR " +
           "(l.authorizationType = 'CLASS_ONLY' AND l.clas = :clas) OR " +
           "(l.authorizationType = 'PRIVATE' AND l.userId = :userId)) " +
-          "AND (:subjectType IS NULL OR l.subjectType = :subjectType)")
-  Page<Link> findAccessibleLinks(@Param("userId") UUID userId, @Param("grade") int grade, @Param("clas") int clas, @Param("subjectType") SubjectType subjectType, Pageable pageable);
+          "AND (:subjectType IS NULL OR l.subjectType = :subjectType) " +
+          "AND (:authorizationType IS NULL OR l.authorizationType = :authorizationType)")
+  Page<Link> findAccessibleLinks(@Param("userId") UUID userId, @Param("grade") int grade, @Param("clas") int clas, @Param("subjectType") SubjectType subjectType, @Param("authorizationType") AuthorizationType authorizationType, Pageable pageable);
 }

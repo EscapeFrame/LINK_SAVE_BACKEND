@@ -37,9 +37,9 @@ public class LinkService {
     return linkRepository.findByGradeAndClasAndAuthorizationType(grade, clas, authorizationType, pageable);
   }
 
-  public Page<Link> findAllAccessibleLinks(UUID userId, int grade, int clas, SubjectType subjectType, int size, int offset) {
+  public Page<Link> findAllAccessibleLinks(UUID userId, int grade, int clas, SubjectType subjectType, AuthorizationType authorizationType, int size, int offset) {
     Pageable pageable = PageRequest.of(offset, size);
-    return linkRepository.findAccessibleLinks(userId, grade, clas, subjectType, pageable);
+    return linkRepository.findAccessibleLinks(userId, grade, clas, subjectType, authorizationType, pageable);
   }
 
   @Transactional
