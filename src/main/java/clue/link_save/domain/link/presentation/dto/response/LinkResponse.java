@@ -6,11 +6,13 @@ import clue.link_save.domain.link.domain.SubjectType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class LinkResponse {
+  private Long id;
   private int grade;
   private int clas;
   private String title;
@@ -21,6 +23,7 @@ public class LinkResponse {
 
   public static LinkResponse from(Link link){
     LinkResponse response = new LinkResponse();
+    response.id = link.getId();
     response.grade = link.getGrade();
     response.clas = link.getClas();
     response.title = link.getTitle();

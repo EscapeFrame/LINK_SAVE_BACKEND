@@ -58,7 +58,7 @@ public class LinkService {
   public Link updateLink(UUID userId, Long linkId, LinkRequest linkRequest) {
     Link link = findByIdOrElseThrow(linkId);
     validateOwnership(link, userId);
-    link.update(linkRequest.getTitle(),linkRequest.getLink(),linkRequest.getDescription(),linkRequest.getAuthorizationType(), linkRequest.getSubjectType());
+    link.update(linkRequest.getTitle(),linkRequest.getDescription(),linkRequest.getLink(),linkRequest.getAuthorizationType(), linkRequest.getSubjectType());
     return link;
   }
 

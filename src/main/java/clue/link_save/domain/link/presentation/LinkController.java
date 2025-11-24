@@ -50,7 +50,7 @@ public class LinkController {
   public ResponseEntity<LinkResponse> getLink(
           @RequestParam UUID userId,
           @RequestBody LinkRequest linkRequest
-  ){
+  ) {
     Link link = Link.create(
             userId,
             linkRequest.getGrade(),
