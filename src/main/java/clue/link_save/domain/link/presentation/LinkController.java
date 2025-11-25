@@ -6,6 +6,7 @@ import clue.link_save.domain.link.domain.Link;
 import clue.link_save.domain.link.domain.SubjectType;
 import clue.link_save.domain.link.presentation.dto.request.LinkRequest;
 import clue.link_save.domain.link.presentation.dto.response.LinkResponse;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -72,8 +73,14 @@ public class LinkController {
           @RequestParam UUID userId,
           @PathVariable Long link_id
   ){
-    linkService.deleteLink(userId, link_id);
-    return ResponseEntity.status(HttpStatus.OK).build();
+    try {
+      linkService.deleteLink(userId, link_id);
+      return ResponseEntity.status(HttpStatus.OK).build();
+    } catch(EntityNotFoundException ne) {
+      return ResponseEntity.notFound().build();
+    } catch(IllegalStateException ise) {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
   }
 
   @PatchMapping("/linksave/{link_id}")
@@ -82,7 +89,13 @@ public class LinkController {
           @PathVariable Long link_id,
           @RequestBody LinkRequest linkRequest
   ){
-    Link link = linkService.updateLink(userId, link_id, linkRequest);
-    return ResponseEntity.ok(LinkResponse.from(link));
+    try {
+      Link link = linkService.updateLink(userId, link_id, linkRequest);
+      return ResponseEntity.ok(LinkResponse.from(link));
+    } catch(EntityNotFoundException ne) {
+      return ResponseEntity.notFound().build();
+    } catch(IllegalStateException ise) {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
   }
 }

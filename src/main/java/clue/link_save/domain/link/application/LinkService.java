@@ -48,14 +48,14 @@ public class LinkService {
   }
 
   @Transactional
-  public void deleteLink(UUID userId, Long id) {
+  public void deleteLink(UUID userId, Long id) throws EntityNotFoundException, IllegalStateException {
     Link link = findByIdOrElseThrow(id);
     validateOwnership(link, userId);
     linkRepository.delete(link);
   }
 
   @Transactional
-  public Link updateLink(UUID userId, Long linkId, LinkRequest linkRequest) {
+  public Link updateLink(UUID userId, Long linkId, LinkRequest linkRequest) throws EntityNotFoundException, IllegalStateException {
     Link link = findByIdOrElseThrow(linkId);
     validateOwnership(link, userId);
     link.update(linkRequest.getTitle(),linkRequest.getDescription(),linkRequest.getLink(),linkRequest.getAuthorizationType(), linkRequest.getSubjectType());
