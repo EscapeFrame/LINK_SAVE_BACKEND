@@ -20,6 +20,7 @@ public class LinkResponse {
   private String link;
   private AuthorizationType authorizationType;
   private SubjectType subjectType;
+  private boolean isMine;
 
   public static LinkResponse from(Link link){
     LinkResponse response = new LinkResponse();

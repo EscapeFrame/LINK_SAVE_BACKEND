@@ -33,7 +33,11 @@ public class LinkController {
   ){
     Page<Link> links = linkService.findAllAccessibleLinks(userId, grade, clas, subjectType, authorizationType, size, offset);
     List<LinkResponse> linkResponses = links.stream()
-            .map(link -> LinkResponse.from(link))
+            .map(link -> {
+              LinkResponse linkResponse = LinkResponse.from(link);
+              linkResponse.setMine(link.getUserId().equals(userId));
+              return linkResponse;
+            })
             .toList();
     return ResponseEntity.ok(linkResponses);
   }
